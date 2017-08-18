@@ -54,6 +54,23 @@ class Wiimote:
 
 	#method to execute commands
 	def execute(self, do):
+
+		def getXCode(x):
+			if(x < 100):
+				return "base counter-clockwise"
+			elif(x > 135):
+				return "base clockwise"
+			else:
+				return ""
+
+		def getYCode(y):
+			if(y < 100):
+				return "elbow up"
+			elif(y > 135):
+				return "elbow down"
+			else:
+				return ""
+
 		#set button read mode
 		self.wii.rpt_mode = cwiid.RPT_BTN | cwiid.RPT_ACC
 
@@ -63,30 +80,40 @@ class Wiimote:
 				print('Connection terminated... ')
 				break
 
-			command = ''
+			command = []
 			
+			#get button values
 			if(buttons & cwiid.BTN_A):
-				command = Wiimote.get_command_code(cwiid.BTN_A)
+				command.append(Wiimote.get_command_code(cwiid.BTN_A))
 			elif(buttons & cwiid.BTN_B):
-				command = Wiimote.get_command_code(cwiid.BTN_B)
+				command.append(Wiimote.get_command_code(cwiid.BTN_B))
 			elif (buttons & cwiid.BTN_1):
-				command = Wiimote.get_command_code(cwiid.BTN_1)
+				command.append(Wiimote.get_command_code(cwiid.BTN_1))
 			elif (buttons & cwiid.BTN_2):
-				command = Wiimote.get_command_code(cwiid.BTN_2)
+				command.append(Wiimote.get_command_code(cwiid.BTN_2))
 			elif (buttons & cwiid.BTN_MINUS):
-				command = Wiimote.get_command_code(cwiid.BTN_MINUS)
+				command.append(Wiimote.get_command_code(cwiid.BTN_MINUS))
 			elif (buttons & cwiid.BTN_PLUS):
-				command = Wiimote.get_command_code(cwiid.BTN_PLUS)
+				command.append(Wiimote.get_command_code(cwiid.BTN_PLUS))
 			elif (buttons & cwiid.BTN_UP):
-				command = Wiimote.get_command_code(cwiid.BTN_UP)
+				command.append(Wiimote.get_command_code(cwiid.BTN_UP))
 			elif (buttons & cwiid.BTN_DOWN):
-				command = Wiimote.get_command_code(cwiid.BTN_DOWN)
+				command.append(Wiimote.get_command_code(cwiid.BTN_DOWN))
 			elif (buttons & cwiid.BTN_LEFT):
-				command = Wiimote.get_command_code(cwiid.BTN_LEFT)
+				command.append(Wiimote.get_command_code(cwiid.BTN_LEFT))
 			elif (buttons & cwiid.BTN_RIGHT):
-				command = Wiimote.get_command_code(cwiid.BTN_RIGHT)
+				command.append(Wiimote.get_command_code(cwiid.BTN_RIGHT))
 
-			if(command != '' and do is not None):
-				do(command)
+			#get accelerometer values
+			x = getXCode(self.wii.state['acc'][cwiid.X])
+			y = getYCode(self.wii.state['acc'][cwiid.Y])
+						
+			if(x != ""):
+				command.append(x)
+			if(y != ""):
+				command.append(y)
+
+			if(len(command) != 0 and do is not None):
+				do(*command)
 
 			time.sleep(0.5)

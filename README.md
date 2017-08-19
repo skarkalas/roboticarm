@@ -12,3 +12,5 @@
 * flick up    \-> elbow up
 * flick down  \-> elbow down
 
+## How to play with it
+Just execute ./runexample if on linux. On windows execute the content of this file on a CLI

@@ -1,4 +1,4 @@
-#Wiimote Command List
+# Wiimote Command List
 * B button    \-> gripper open
 * A button    \-> gripper close
 * \+ button   \-> wrist up

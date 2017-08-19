@@ -110,7 +110,7 @@ class RoboArm:
 			
 		#get full command
 		command = get_command()
-		print("*** executing --> " + ",".join(str(e) for e in command))
+		print("*** executing --> " + ",".join(args) + " (" + ",".join(str(e) for e in command) + ")")
 
 		#execute command
 		self.robo_arm.ctrl_transfer(0x40,6,0x100,0,command,1000)
